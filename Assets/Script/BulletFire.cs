@@ -2,24 +2,23 @@
 using UnityEngine.InputSystem;
 
 public class BulletFire : MonoBehaviour {
-    PlayerInput playerInput;
+
+#pragma warning disable 0649
+    [SerializeField] InputReader inputReader;
+
     [SerializeField] Transform BulletPrefab;
     [SerializeField] Camera mainCamera;
+    [SerializeField] Transform gunPosition;
+#pragma warning restore 0649
 
-    private void Awake() {
-        playerInput = new PlayerInput();
-        playerInput.GroundInput.Fire.performed += FireBullet;
-    }
 
-    void FireBullet(InputAction.CallbackContext context) {
+    private void FireBullet() {
         Vector3 position = mainCamera.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 0));
         Instantiate(BulletPrefab, position, transform.rotation);
     }
 
-
-
-    private void OnEnable() => playerInput.Enable();
-    private void OnDisable() => playerInput.Disable();
+    private void OnEnable() => inputReader.attackEvent += FireBullet;
+    private void OnDisable() => inputReader.attackEvent -= FireBullet;
 
 
 }
