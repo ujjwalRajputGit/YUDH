@@ -8,6 +8,7 @@ public class InputReader : MonoBehaviour, GameInput.IGroundInputActions {
     public UnityAction attackEvent;
     public UnityAction jumpEvent;
     public UnityAction crouchEvent;
+    public UnityAction proneEvent;
     public UnityAction<float> sprintEvent;
     public UnityAction<Vector2> moveEvent;
     public UnityAction<Vector2> rotateCameraEvent;
@@ -62,5 +63,10 @@ public class InputReader : MonoBehaviour, GameInput.IGroundInputActions {
     public void OnCrouch(InputAction.CallbackContext context) {
         if (crouchEvent != null)
             crouchEvent.Invoke();
+    }
+
+    public void OnProne(InputAction.CallbackContext context) {
+        if (proneEvent != null)
+            proneEvent.Invoke();
     }
 }

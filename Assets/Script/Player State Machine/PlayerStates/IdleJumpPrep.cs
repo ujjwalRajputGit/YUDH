@@ -9,7 +9,8 @@ public class IdleJumpPrep : IPlayerState {
     }
 
     public void Start() {
-        Player.Animator.SetBool("IsJumping", true);
+        Player.IsJumping = true;
+        Player.Animator.SetBool("ToJumpPrep", true);
     }
 
     public void Update() {
@@ -23,7 +24,7 @@ public class IdleJumpPrep : IPlayerState {
 
     }
     public void OnExit() {
-
+        Player.Animator.SetBool("ToJumpPrep", false);
     }
 
     public bool StateCompleted() {

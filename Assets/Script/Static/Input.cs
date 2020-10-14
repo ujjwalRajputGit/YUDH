@@ -11,12 +11,14 @@ public class Input : MonoBehaviour {
     static bool isLeftShiftDown;
     static bool jumpKeyPressed;
     static bool crouchKeyPressed;
+    static bool proneKeyPressed;
 
     public static Vector3 GetAxis { get { return (isControlsEnabled) ? getAxis : new Vector3(0, 0, 0); } }
     public static bool IsControlsEnabled { get => isControlsEnabled; set => isControlsEnabled = value; }
     public static bool IsLeftShiftDown { get { return (isControlsEnabled) ? isLeftShiftDown : false; } }
     public static bool JumpKeyPressed { get { return (isControlsEnabled) ? jumpKeyPressed : false;} set { if(isControlsEnabled) { jumpKeyPressed = value;}}}
     public static bool CrouchKeyPressed { get { return (isControlsEnabled) ? crouchKeyPressed : false; }}
+    public static bool ProneKeyPressed { get { return (isControlsEnabled) ? proneKeyPressed : false; }}
 
     void LeftShiftDown(float value) {
         if (value > 0.5f) {
@@ -36,16 +38,21 @@ public class Input : MonoBehaviour {
     void CrouchKey() {
         crouchKeyPressed = !crouchKeyPressed;
     }
+    void ProneKey() {
+        proneKeyPressed = !proneKeyPressed;
+    }
 
     void OnEnable() { //adding ethod to unityEvent.
         inputReader.moveEvent += Move;
         inputReader.sprintEvent += LeftShiftDown;
         inputReader.jumpEvent += JumpKey;
         inputReader.crouchEvent += CrouchKey;
+        inputReader.proneEvent += ProneKey;
     }
     void OnDisable() { //removing method from unityEvent.
         inputReader.moveEvent -= Move;
         inputReader.sprintEvent -= LeftShiftDown;
         inputReader.crouchEvent -= CrouchKey;
+        inputReader.proneEvent -= ProneKey;
     }
 }

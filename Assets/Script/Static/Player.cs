@@ -13,6 +13,7 @@ public class Player : MonoBehaviour {
     static GameObject playerObject;
     static Collider groundCollider;
     static bool isGrounded;
+    static bool isJumping;
 
     static GameObject groundCheck;
 
@@ -28,6 +29,7 @@ public class Player : MonoBehaviour {
     public static GameObject PlayerObject { get => playerObject; }
     public static bool IsGrounded { get => isGrounded; }
     public static Collider GroundCollider { get => groundCollider; }
+    public static bool IsJumping { get => isJumping; set => isJumping = value; }
 
     private void OnTriggerEnter(Collider other) {
         if (other.gameObject.tag != "Player") {
@@ -39,6 +41,13 @@ public class Player : MonoBehaviour {
         if (other.gameObject.tag != "Player") {
             isGrounded = false;
             // Debug.Log("exit"+other);
+        }
+    }
+
+    private void Update() {
+        Debug.Log(rigidbodye.velocity.y);
+        if(rigidbodye.velocity.y <=0.001f && rigidbodye.velocity.y >= -0.001f){
+            isGrounded = true;
         }
     }
 }

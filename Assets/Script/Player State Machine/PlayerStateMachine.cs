@@ -16,6 +16,7 @@ public class PlayerStateMachine : MonoBehaviour {
     private void Update() {
         if (currentPlayerState != null) {
             currentPlayerState.Update();
+            Debug.Log(currentPlayerState);
         }
     }
 

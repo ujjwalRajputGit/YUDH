@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
-public class Run : IPlayerState {
+public class StandingBlendTree : IPlayerState {
     Vector3 transformRight;
     Vector3 transformForward;
     GameObject player;
     Rigidbody rb;
     float speed;
-    public Run(Vector3 transformRight, Vector3 transformForward, Rigidbody rb, float speed, GameObject player) {
+    public StandingBlendTree(Vector3 transformRight, Vector3 transformForward, Rigidbody rb, float speed, GameObject player) {
         this.transformRight = transformRight;
         this.transformForward = transformForward;
         this.rb = rb;
@@ -13,8 +13,6 @@ public class Run : IPlayerState {
         this.player = player;
     }
     public void Start() {
-        // Player.GroundCollider.enabled = false;
-        Player.Animator.SetBool("IsJumping", false);
     }
 
     public void Update() {

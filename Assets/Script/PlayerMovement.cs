@@ -26,22 +26,24 @@ public class PlayerMovement : MonoBehaviour {
     IdleJumpPrep idleJumpPrep;
     IdleJump idleJump;
     IdleJumpLanding idleJumpLanding;
-    Run run;
+    StandingBlendTree run;
 
     CrouchBlendTree crouch;
+    ProneBlendTree prone;
 
     private void Awake() {
         rb = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
-        idleJumpPrep = new IdleJumpPrep(0.8f);
+        idleJumpPrep = new IdleJumpPrep(.8f);
         idleJump = new IdleJump(jumpForce);
         crouch = new CrouchBlendTree();
-        run = new Run(transform.right,
+        prone = new ProneBlendTree();
+        run = new StandingBlendTree(transform.right,
                 transform.forward,
                 rb,
                 speed,
                 gameObject);
-        idleJumpLanding = new IdleJumpLanding(0.8f);
+        idleJumpLanding = new IdleJumpLanding(.9f);
     }
 
     private void Start() {
@@ -52,7 +54,8 @@ public class PlayerMovement : MonoBehaviour {
 
     }
     private void Update() {
-        if (Input.JumpKeyPressed && Input.GetAxis.x == 0 && Input.GetAxis.z == 0) {
+        if (Input.JumpKeyPressed && Input.GetAxis.x == 0 && Input.GetAxis.z == 0 && !Player.IsJumping) {
+            // Debug.Break();
             PlayerStateMachine.ChangePlayerState(idleJumpPrep);
         }
         if (animator.GetCurrentAnimatorStateInfo(0).IsName("IdleJumpPrep")) {
@@ -71,13 +74,18 @@ public class PlayerMovement : MonoBehaviour {
             }
         }
 
-        if(Input.CrouchKeyPressed) {
-            PlayerStateMachine.ChangePlayerState(crouch);
-        }else{
-            PlayerStateMachine.ChangePlayerState(run);
-        }
-        Debug.Log(Player.IsGrounded);
-        Debug.Log(Player.Rigidbodye.velocity);
+        // if (Player.IsGrounded && !Input.JumpKeyPressed && !Player.IsJumping) {
+        //     if (Input.CrouchKeyPressed) {
+        //         PlayerStateMachine.ChangePlayerState(crouch);
+        //     } else if (Input.ProneKeyPressed) {
+        //         PlayerStateMachine.ChangePlayerState(prone);
+        //     } else {
+        //         PlayerStateMachine.ChangePlayerState(run);
+        //     }
+        // }
+        Debug.Log("IsGrounded" + Player.IsGrounded);
+        Debug.Log("jumpKey" + Input.JumpKeyPressed);
+        // Debug.Log(Player.Rigidbodye.velocity);
         // Debug.Log(animationName);
         // Debug.Log(animator.GetCurrentAnimatorClipInfo(0)[0].clip.name);
 
@@ -96,12 +104,13 @@ public class PlayerMovement : MonoBehaviour {
     //     }
     // }
 
-    // void Jump2() {
-    //     if (Input.JumpKeyPressed && Player.IsGrounded) {
-    //         Player.Rigidbodye.AddForce(Player.PlayerObject.transform.up * jumpForce,ForceMode.Impulse);
-    //         // Debug.Log(Player.Rigidbodye.velocity.y);
-    //     }
-    // }
+    void Jump2() {
+        if (Input.JumpKeyPressed && Player.IsGrounded) {
+            Player.Rigidbodye.AddForce(Player.PlayerObject.transform.up * jumpForce, ForceMode.Impulse);
+            // Debug.Log(Player.Rigidbodye.velocity.y);
+            // Input.JumpKeyPressed = false;
+        }
+    }
     private void Movement() { //applying velocity to player.
 
         //if ((moveZ != 0 && moveX == 0) || (moveX != 0 && moveZ == 0)) {

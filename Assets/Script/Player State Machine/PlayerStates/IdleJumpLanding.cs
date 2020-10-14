@@ -12,8 +12,7 @@ public class IdleJumpLanding : IPlayerState {
     }
 
     public void Start() {
-        // Player.GroundCollider.enabled = true;    
-        Player.Animator.SetBool("IsGrounded", true);  
+        Player.Animator.SetBool("ToLanding", true);  
     }
 
     public void Update() {
@@ -28,12 +27,12 @@ public class IdleJumpLanding : IPlayerState {
     }
 
     public bool StateCompleted() {
-        Player.Animator.SetBool("IsJumping", false);
         return isComplete;
     }
 
     public void OnExit() {
-        Player.Animator.SetBool("IsGrounded", false); 
-        Input.JumpKeyPressed = false; 
+        Player.Animator.SetBool("ToLanding", false);
+        Player.IsJumping = false;
+        Input.JumpKeyPressed = false;
     }
 }

@@ -65,6 +65,14 @@ public class @GameInput : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": ""Press""
+                },
+                {
+                    ""name"": ""Prone"",
+                    ""type"": ""Button"",
+                    ""id"": ""5e30632e-6111-4ffa-b111-da10c158c891"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press""
                 }
             ],
             ""bindings"": [
@@ -199,6 +207,17 @@ public class @GameInput : IInputActionCollection, IDisposable
                     ""action"": ""Crouch"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d74da690-15dd-4eae-b844-1b45557a904f"",
+                    ""path"": ""<Keyboard>/z"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Prone"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -213,6 +232,7 @@ public class @GameInput : IInputActionCollection, IDisposable
         m_GroundInput_Attack = m_GroundInput.FindAction("Attack", throwIfNotFound: true);
         m_GroundInput_Jump = m_GroundInput.FindAction("Jump", throwIfNotFound: true);
         m_GroundInput_Crouch = m_GroundInput.FindAction("Crouch", throwIfNotFound: true);
+        m_GroundInput_Prone = m_GroundInput.FindAction("Prone", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -268,6 +288,7 @@ public class @GameInput : IInputActionCollection, IDisposable
     private readonly InputAction m_GroundInput_Attack;
     private readonly InputAction m_GroundInput_Jump;
     private readonly InputAction m_GroundInput_Crouch;
+    private readonly InputAction m_GroundInput_Prone;
     public struct GroundInputActions
     {
         private @GameInput m_Wrapper;
@@ -278,6 +299,7 @@ public class @GameInput : IInputActionCollection, IDisposable
         public InputAction @Attack => m_Wrapper.m_GroundInput_Attack;
         public InputAction @Jump => m_Wrapper.m_GroundInput_Jump;
         public InputAction @Crouch => m_Wrapper.m_GroundInput_Crouch;
+        public InputAction @Prone => m_Wrapper.m_GroundInput_Prone;
         public InputActionMap Get() { return m_Wrapper.m_GroundInput; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -305,6 +327,9 @@ public class @GameInput : IInputActionCollection, IDisposable
                 @Crouch.started -= m_Wrapper.m_GroundInputActionsCallbackInterface.OnCrouch;
                 @Crouch.performed -= m_Wrapper.m_GroundInputActionsCallbackInterface.OnCrouch;
                 @Crouch.canceled -= m_Wrapper.m_GroundInputActionsCallbackInterface.OnCrouch;
+                @Prone.started -= m_Wrapper.m_GroundInputActionsCallbackInterface.OnProne;
+                @Prone.performed -= m_Wrapper.m_GroundInputActionsCallbackInterface.OnProne;
+                @Prone.canceled -= m_Wrapper.m_GroundInputActionsCallbackInterface.OnProne;
             }
             m_Wrapper.m_GroundInputActionsCallbackInterface = instance;
             if (instance != null)
@@ -327,6 +352,9 @@ public class @GameInput : IInputActionCollection, IDisposable
                 @Crouch.started += instance.OnCrouch;
                 @Crouch.performed += instance.OnCrouch;
                 @Crouch.canceled += instance.OnCrouch;
+                @Prone.started += instance.OnProne;
+                @Prone.performed += instance.OnProne;
+                @Prone.canceled += instance.OnProne;
             }
         }
     }
@@ -339,5 +367,6 @@ public class @GameInput : IInputActionCollection, IDisposable
         void OnAttack(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
         void OnCrouch(InputAction.CallbackContext context);
+        void OnProne(InputAction.CallbackContext context);
     }
 }
